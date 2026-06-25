@@ -1,0 +1,25 @@
+name: Blog Monitor
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run blog monitor
+        env:
+          YOUR_EMAIL: ${{ secrets.YOUR_EMAIL }}
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          SENDER_APP_PASS: ${{ secrets.SENDER_APP_PASS }}
+        run: python blog_monitor.py
